@@ -13,6 +13,8 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 client = discord.Client()
 
+user_emojis = dict()
+
 @client.event
 async def on_ready():
     """The main event once the bot connects to Discord."""
@@ -20,18 +22,23 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    """Reacts to the message with an emoji"""
-    try:
-        emoji = "🤔"
-        await message.add_reaction(emoji)
-    except Exception as e:
-        print(f"{datetime.datetime.now()}: error reacting")
-        raise
+    """Either sets the user's emoji's preferences, or reacts to a message"""
+    #Message must have contents "!Autoreact.set {Preferred-Emoji}"
+    if message.content[:15] == "!AutoReact.set ":
+        user_emojis[message.author] = message.content[15:16]
     else:
-        print(
-            f"{datetime.datetime.now()}: Reacted to {message.author}'s message",
-            f"in guild {message.guild} in channel {message.channel} with",
-            f"{emoji}")
+        try:
+            emoji = user_emojis.get(message.author, None)
+            if emoji is not None:
+                await message.add_reaction(emoji)
+        except Exception as e:
+            print(f"{datetime.datetime.now()}: error reacting")
+            raise
+        else:
+            print(
+                f"{datetime.datetime.now()}: Reacted to {message.author}'s message",
+                f"in guild {message.guild} in channel {message.channel} with",
+                f"{emoji}")
 
 
 client.run(TOKEN)
