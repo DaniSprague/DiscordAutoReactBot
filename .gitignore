@@ -1,0 +1,5 @@
+#File with sensitive info
+*.env
+
+#Custom VSCode settings
+.vscode/*
