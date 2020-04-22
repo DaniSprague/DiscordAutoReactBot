@@ -25,7 +25,8 @@ async def on_ready():
 @client.event
 async def on_message(message):
     """Either sets the user's emoji's preferences, or reacts to a message"""
-    if message.content[:10] == "!AutoReact":
+    if message.content[:10] == "!AutoReact" and \
+        type(message.channel) == discord.DMChannel:
         if message.content[11:15] == "set ":
             await _set_pref(message)
         elif message.content[11:16] == "help":
