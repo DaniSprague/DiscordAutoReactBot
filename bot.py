@@ -19,6 +19,9 @@ user_emojis = dict()
 @client.event
 async def on_ready():
     """The main event once the bot connects to Discord."""
+    #Adds a help instruction by the bot's name in the users sidebar
+    help_instruction = discord.Game("PM '!AutoReact.help'")
+    await client.change_presence(activity = help_instruction)
     print(f'{client.user} has connected to Discord!\n')
 
 
