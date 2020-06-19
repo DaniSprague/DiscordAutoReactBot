@@ -10,8 +10,8 @@ AutoReact supports several commands. To use any of these commands, users should 
 
 | __Prefix__ | __Command__ | __Arguments__ | __Functionality__ | __Example__ |
 | --- | --- | --- | --- | --- |
-| !AutoReact | help | *none* | Messages the user with help info | `!AutoReact help`
-| !AutoReact | set | emoji | Sets the users reaction emoji | `!AutoReact set 🤔` |
+| !AutoReact | .help | *none* | Messages the user with help info | `!AutoReact.help`
+| !AutoReact | .set | emoji | Sets the users reaction emoji | `!AutoReact.set 🤔` |
 
 ## Functionality
 
