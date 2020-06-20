@@ -2,7 +2,7 @@
 
 This bot automatically reacts to user's messages with their favorite emoji on Discord.
 
-__WARNING:__ AutoReact is in early development, and is only updated when @DaniSprague has time. A lot of functionality is missing, including the ability to save user preferences across restarts of the bot, such that one should not consider AutoReact to be at v0.1 yet. Use this at your own risk!
+__WARNING:__ AutoReact is in early development, and is only updated when @DaniSprague has time. A lot of functionality is still missing, although AutoReact is now considered to be at v0.1. Use this at your own risk!
 
 ## Usage
 
@@ -10,8 +10,9 @@ AutoReact supports several commands. To use any of these commands, users should 
 
 | __Prefix__ | __Command__ | __Arguments__ | __Functionality__ | __Example__ |
 | --- | --- | --- | --- | --- |
-| !AutoReact | .help | *none* | Messages the user with help info | `!AutoReact.help`
-| !AutoReact | .set | emoji | Sets the users reaction emoji | `!AutoReact.set 🤔` |
+| !AutoReact | .disable | *none* | Removes the user's reaction emoji | `!AutoReact.disable` |
+| !AutoReact | .help | *none* | Messages the user with help info | `!AutoReact.help` |
+| !AutoReact | .set | emoji | Sets the user's reaction emoji | `!AutoReact.set 🤔` |
 
 ## Functionality
 
@@ -43,6 +44,8 @@ There are plans to provide both a Docker Image and the ability to load the bot o
 ## Roadmap
 
 This project is still quite lacking. One goal is to get the Wiki up and running for a more formal roadmap. Until then, [the Milestones portion of the Issues tab](https://github.com/DaniSprague/DiscordAutoReactBot/milestones) should give a good idea of what is needed for each version.
+
+Currently, the project is considered to be in v0.1.
 
 ## Why?
 
