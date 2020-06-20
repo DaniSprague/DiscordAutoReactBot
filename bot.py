@@ -2,19 +2,14 @@
 The main file for a bot to auto-react to user's messages on Discord.
 """
 
-import os
 import datetime
+import os
+import json
 
 import discord
 from dotenv import load_dotenv
 
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-
 client = discord.Client()
-
-user_emojis = dict()
-
 
 @client.event
 async def on_ready():
@@ -44,7 +39,8 @@ async def _set_pref(message):
     Accepts an argument of a Discord message of format "!Autoreact.set {emoji}"
     Takes the emoji and sets that to be the user's preferred emoji.
     """
-    user_emojis[message.author] = message.content[15:16]
+    user_emojis[message.author.id] = message.content[15:16]
+    await _save_emojis()
 
 
 async def _react(message):
@@ -54,7 +50,7 @@ async def _react(message):
     Checks the author's preference of emoji and reacts.
     """
     try:
-        emoji = user_emojis.get(message.author, None)
+        emoji = user_emojis.get(message.author.id, None)
         if emoji is not None:
             await message.add_reaction(emoji)
             print(
@@ -80,5 +76,43 @@ async def _help(message):
         r"'!AutoReact.set {emoji}' - set the preferred reaction emoji"+"\n" +\
         "\nHave a nice day!"
     await message.author.send(help_dialogue)
+
+async def _save_emojis():
+    """
+    Saves the emoji preferences from a dictionary format into the database.
+
+    Returns nothing.
+    """
+    with open('user_emojis.json', 'w') as f:
+        json.dump(user_emojis, f)
+
+def _load_emojis():
+    """
+    Loads the emoji preferences into a dictionary format from the database.
+
+    Returns the dictionary containing all the emoji preferences.
+    """
+    try:
+        with open('user_emojis.json', 'r') as f:
+            temp_dict = json.load(f)
+            # Changes the loaded string keys to integers.
+            # Note that json.load does have a parse_int parameter, but I failed to get it working
+            temp_dict_keys = list(temp_dict.keys())
+            for key in temp_dict_keys:
+                temp_dict[int(key)] = temp_dict[key]
+                del temp_dict[key]
+            return temp_dict
+    #Handles case where database has not been created yet
+    except FileNotFoundError:
+        user_emojis = dict()
+        with open('user_emojis.json', 'w') as f:
+            json.dump(user_emojis, f)
+        return _load_emojis()
+
+
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
+
+user_emojis = _load_emojis()
 
 client.run(TOKEN)
