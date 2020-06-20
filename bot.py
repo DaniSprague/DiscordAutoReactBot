@@ -11,14 +11,7 @@ from dotenv import load_dotenv
 
 client = discord.Client()
 
-@client.event
-async def on_ready():
-    """The main event once the bot connects to Discord."""
-    #Adds a help instruction by the bot's name in the users sidebar
-    help_instruction = discord.Game("PM '!AutoReact.help'")
-    await client.change_presence(activity = help_instruction)
-    print(f'{client.user} has connected to Discord!\n')
-
+# Discord calls
 
 @client.event
 async def on_message(message):
@@ -34,15 +27,15 @@ async def on_message(message):
     else:
         await _react(message)
 
+@client.event
+async def on_ready():
+    """The main event once the bot connects to Discord."""
+    #Adds a help instruction by the bot's name in the users sidebar
+    help_instruction = discord.Game("PM '!AutoReact.help'")
+    await client.change_presence(activity = help_instruction)
+    print(f'{client.user} has connected to Discord!\n')
 
-async def _set_pref(message):
-    """Sets a user's preference for their reaction emoji.
-
-    Accepts an argument of a Discord message of format "!Autoreact.set {emoji}"
-    Takes the emoji and sets that to be the user's preferred emoji.
-    """
-    user_emojis[message.author.id] = message.content[15:16]
-    await _save_emojis()
+# Commands
 
 async def _disable(message):
     """
@@ -56,23 +49,6 @@ async def _disable(message):
         await _save_emojis()
     except KeyError:
         ""
-
-async def _react(message):
-    """Reacts to the given emoji with the user's preferred emoji.
-
-    Accepts an argument of a Discord message to be reacted to.
-    Checks the author's preference of emoji and reacts.
-    """
-    try:
-        emoji = user_emojis.get(message.author.id, None)
-        if emoji is not None:
-            await message.add_reaction(emoji)
-            print(
-                f"{datetime.datetime.now()}: Reacted to {message.author}'s",
-                f"message with {emoji}.")
-    except Exception as e:
-        print(f"{datetime.datetime.now()}: error reacting")
-        raise
 
 async def _help(message):
     """Provides a help dialogue for the user
@@ -92,14 +68,35 @@ async def _help(message):
         "\nHave a nice day!"
     await message.author.send(help_dialogue)
 
-async def _save_emojis():
-    """
-    Saves the emoji preferences from a dictionary format into the database.
+async def _set_pref(message):
+    """Sets a user's preference for their reaction emoji.
 
-    Returns nothing.
+    Accepts an argument of a Discord message of format "!Autoreact.set {emoji}"
+    Takes the emoji and sets that to be the user's preferred emoji.
     """
-    with open('user_emojis.json', 'w') as f:
-        json.dump(user_emojis, f)
+    user_emojis[message.author.id] = message.content[15:16]
+    await _save_emojis()
+
+# Core functions
+
+async def _react(message):
+    """Reacts to the given emoji with the user's preferred emoji.
+
+    Accepts an argument of a Discord message to be reacted to.
+    Checks the author's preference of emoji and reacts.
+    """
+    try:
+        emoji = user_emojis.get(message.author.id, None)
+        if emoji is not None:
+            await message.add_reaction(emoji)
+            print(
+                f"{datetime.datetime.now()}: Reacted to {message.author}'s",
+                f"message with {emoji}.")
+    except Exception as e:
+        print(f"{datetime.datetime.now()}: error reacting")
+        raise
+
+# Database functions
 
 def _load_emojis():
     """
@@ -117,13 +114,24 @@ def _load_emojis():
                 temp_dict[int(key)] = temp_dict[key]
                 del temp_dict[key]
             return temp_dict
-    #Handles case where database has not been created yet
+    # Handles case where database has not been created yet
     except FileNotFoundError:
         user_emojis = dict()
         with open('user_emojis.json', 'w') as f:
             json.dump(user_emojis, f)
         return _load_emojis()
 
+async def _save_emojis():
+    """
+    Saves the emoji preferences from a dictionary format into the database.
+
+    Returns nothing.
+    """
+    with open('user_emojis.json', 'w') as f:
+        json.dump(user_emojis, f)
+
+
+# Start-up functionality
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
