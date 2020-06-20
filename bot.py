@@ -29,6 +29,8 @@ async def on_message(message):
             await _set_pref(message)
         elif message.content[11:16] == "help":
             await _help(message)
+        elif message.content[11:19] == "disable":
+            await _disable(message)
     else:
         await _react(message)
 
@@ -42,6 +44,18 @@ async def _set_pref(message):
     user_emojis[message.author.id] = message.content[15:16]
     await _save_emojis()
 
+async def _disable(message):
+    """
+    Removes a user's preference for their reactions emoji.
+
+    Accepts an argument of a Discord message of format "!AutoReact.disable".
+    Reads who the user is and removes their entry from the preferences
+    """
+    try:
+        del user_emojis[message.author.id]
+        await _save_emojis()
+    except KeyError:
+        ""
 
 async def _react(message):
     """Reacts to the given emoji with the user's preferred emoji.
@@ -72,7 +86,8 @@ async def _help(message):
         "favorite emoji for those users who opt in. This will only work" +\
         " in servers where the bot is installed.\n\n" +\
         "The commands are as follows:\n" +\
-        "'!AutoReact.help' - prints a help message\n"+\
+        "'!AutoReact.disable' - removes the emoji preference, disabling the bot for the user\n" +\
+        "'!AutoReact.help' - prints a help message\n" +\
         r"'!AutoReact.set {emoji}' - set the preferred reaction emoji"+"\n" +\
         "\nHave a nice day!"
     await message.author.send(help_dialogue)
