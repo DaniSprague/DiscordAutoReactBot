@@ -119,7 +119,7 @@ async def _react(message):
         if emoji is not None:
             await message.add_reaction(emoji)
             print(
-                f"{datetime.datetime.now()}: Reacted to {message.author}'s",
+                f"{str(datetime.datetime.now())[0:-7]}: Reacted to {message.author}'s",
                 f"message with {emoji}.")
     except Exception as e:
         print(f"{datetime.datetime.now()}: error reacting")
