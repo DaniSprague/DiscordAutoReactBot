@@ -1,4 +1,4 @@
-# DiscordAutoReactBot
+# [DiscordAutoReactBot](https://github.com/DaniSprague/DiscordAutoReactBot)
 
 This bot automatically reacts to user's messages with their favorite emoji on Discord.
 
@@ -46,6 +46,10 @@ There are plans to provide both a Docker Image and the ability to load the bot o
 This project is still quite lacking. One goal is to get the Wiki up and running for a more formal roadmap. Until then, [the Milestones portion of the Issues tab](https://github.com/DaniSprague/DiscordAutoReactBot/milestones) should give a good idea of what is needed for each version.
 
 Currently, the project is considered to be in v0.1.
+
+## Code Styling
+
+This project uses [YAPF](https://github.com/google/yapf) to format the code, using the config in the included `.style.yapf` file. For comments and docstrings, the [Google Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md#s3.8-comments-and-docstrings) is followed.
 
 ## Why?
 
