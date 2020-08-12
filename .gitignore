@@ -6,3 +6,6 @@
 
 #Database
 *.json
+
+#Log files
+*.log
