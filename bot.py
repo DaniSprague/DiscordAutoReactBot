@@ -52,7 +52,13 @@ async def on_message(message):
 async def on_ready():
     """Handles the startup once the bot connects to Discord.
 
-    Returns nothing.
+    Sets the bot's status and prints a success message to console.
+
+    Args:
+        None
+
+    Returns:
+        None
     """
 
     #Adds a help instruction by the bot's name in the users sidebar
