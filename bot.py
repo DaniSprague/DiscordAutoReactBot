@@ -74,7 +74,8 @@ async def _disable(message):
     """Disables the bot for a user by removing their emoji preference.
 
     Args:
-        message: A Discord.message object with contents "!AutoReact.disable"
+        message: A Discord.message object representing a message written by the 
+        user for which the bot will be disabled.
 
     Returns:
         None
