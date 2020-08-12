@@ -17,7 +17,7 @@ import logging
 import discord
 from dotenv import load_dotenv
 
-# Logging set-up (basic logging code from the discord.py documentation)
+# Discord logging set-up (basic logging code from the discord.py documentation)
 logger = logging.getLogger('discord')
 logger.setLevel(logging.INFO)
 handler = logging.FileHandler(filename='discord.log',
@@ -26,6 +26,17 @@ handler = logging.FileHandler(filename='discord.log',
 handler.setFormatter(
     logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
+
+# Bot logging set-up
+bot_logger = logging.getLogger('AutoReact')
+bot_logger.setLevel(logging.INFO)
+bot_logger.addHandler(handler)
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(
+    logging.Formatter('%(asctime)s:%(levelname)s: %(message)s',
+                      datefmt='%Y-%m-%d %H:%M:%S'))
+console_handler.setLevel(logging.INFO)
+bot_logger.addHandler(console_handler)
 
 client = discord.Client()
 
