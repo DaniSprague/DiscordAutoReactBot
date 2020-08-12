@@ -43,6 +43,20 @@ client = discord.Client()
 
 
 @client.event
+async def on_disconnect():
+    """Handles logging when the client disconnects.
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
+
+    bot_logger.error('Client disconnected!')
+
+
+@client.event
 async def on_message(message):
     """Handles functionality whenever a message visible to AutoReact is seen.
 
@@ -90,6 +104,19 @@ async def on_ready():
     help_instruction = discord.Game("PM '!AutoReact.help'")
     await client.change_presence(activity=help_instruction)
     bot_logger.info(f'{client.user} has connected to Discord!\n')
+
+
+@client.event
+async def on_resumed():
+    """Handles the logging when connection is resumed after a disconnect.
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
+    bot_logger.ERROR('Client reconnected!')
 
 
 # Commands
