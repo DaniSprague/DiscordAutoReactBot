@@ -9,7 +9,6 @@ for every channel in which the bot and the user are both members.
 This script depends on the discord and dotenv modules. See README.md for more.
 """
 
-import datetime
 import os
 import json
 import logging
@@ -58,8 +57,12 @@ async def on_message(message):
         None
     """
 
+    bot_logger.debug(f"Message received with contents '{message.content}'.")
     if message.content[:10] == "!AutoReact" and \
         type(message.channel) == discord.DMChannel:
+        bot_logger.debug(
+            (f'Command recieved from {message.author} on channel '
+             f"{message.channel} with contents '{message.content}'."))
         if message.content[11:15] == "set ":
             await _set_pref(message)
         elif message.content[11:16] == "help":
@@ -86,7 +89,7 @@ async def on_ready():
     #Adds a help instruction by the bot's name in the users sidebar
     help_instruction = discord.Game("PM '!AutoReact.help'")
     await client.change_presence(activity=help_instruction)
-    print(f'{client.user} has connected to Discord!\n')
+    bot_logger.info(f'{client.user} has connected to Discord!\n')
 
 
 # Commands
@@ -105,6 +108,8 @@ async def _disable(message):
 
     try:
         del user_emojis[message.author.id]
+        bot_logger.debug((f"{message.author}'s ({message.author.id}) emoji "
+                          "deleted from dictionary."))
         await _save_emojis()
     except KeyError:
         ""
@@ -137,6 +142,8 @@ async def _help(message):
         "\n"
         "\nHave a nice day!")
     await message.author.send(help_dialogue)
+    bot_logger.debug((f'Sent help dialogue to {message.author} in '
+                      f'{message.channel}.'))
 
 
 async def _set_pref(message):
@@ -153,8 +160,11 @@ async def _set_pref(message):
         None
     """
 
-    user_emojis[message.author.id] = message.content[15:16]
+    emoji = message.content[15:16]
+    user_emojis[message.author.id] = emoji
     await _save_emojis()
+    bot_logger.debug((f"Set {message.author}'s ({message.author.id}) emoji "
+                      f'preference as {emoji}.'))
 
 
 # Core functions
@@ -183,11 +193,14 @@ async def _react(message):
         emoji = user_emojis.get(message.author.id, None)
         if emoji is not None:
             await message.add_reaction(emoji)
-            print(f"{str(datetime.datetime.now())[0:-7]}: Reacted to",
-                  f"{message.author}'s message with {emoji}.")
+            bot_logger.info((f"Reacted to {message.author}'s message "
+                             f'with {emoji}.'))
     except Exception as e:
-        print(f"{datetime.datetime.now()}: error reacting")
-        raise
+        bot_logger.warning('Error adding reaction to message')
+        bot_logger.debug(
+            (f'Error "{repr(e)}" reached in attempting to react to '
+             f"{message.author}'s ({message.author.id}) message in "
+             f'{message.channel}.'))
 
 
 # Database functions
@@ -214,12 +227,16 @@ def _load_emojis():
             for key in temp_dict_keys:
                 temp_dict[int(key)] = temp_dict[key]
                 del temp_dict[key]
+                bot_logger.debug((f"Loaded {key}'s preferences into memory."))
+            bot_logger.info('Loaded preferences into memory from database.')
             return temp_dict
     # Handles case where database has not been created yet
     except FileNotFoundError:
+        bot_logger.debug('Database not found.')
         user_emojis = dict()
         with open('user_emojis.json', 'w') as f:
             json.dump(user_emojis, f)
+        bot_logger.debug('Database created.')
         return _load_emojis()
 
 
@@ -235,6 +252,7 @@ async def _save_emojis():
 
     with open('user_emojis.json', 'w') as f:
         json.dump(user_emojis, f)
+    bot_logger.debug('Emoji preferences saved to database.')
 
 
 # Start-up functionality
