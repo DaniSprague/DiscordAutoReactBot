@@ -102,7 +102,8 @@ async def _help(message):
     """
 
     bot_author = "Vawqer#6022"
-    help_dialogue = (f"Hello! This is Discord bot made by {bot_author}. "
+    help_dialogue = (
+        f"Hello! This is Discord bot made by {bot_author}. "
         "This bot will automatically react to any messages with a user's "
         "favorite emoji for those users who opt in. This will only work"
         " in servers where the bot is installed.\n\n"
@@ -160,9 +161,8 @@ async def _react(message):
         emoji = user_emojis.get(message.author.id, None)
         if emoji is not None:
             await message.add_reaction(emoji)
-            print(
-                f"{str(datetime.datetime.now())[0:-7]}: Reacted to",
-                f"{message.author}'s message with {emoji}.")
+            print(f"{str(datetime.datetime.now())[0:-7]}: Reacted to",
+                  f"{message.author}'s message with {emoji}.")
     except Exception as e:
         print(f"{datetime.datetime.now()}: error reacting")
         raise
@@ -186,7 +186,7 @@ def _load_emojis():
         with open('user_emojis.json', 'r') as f:
             temp_dict = json.load(f)
             # Changes the loaded string keys to integers.
-            # Note that json.load does have a parse_int parameter, however it 
+            # Note that json.load does have a parse_int parameter, however it
             # did not appear to be working for this.
             temp_dict_keys = list(temp_dict.keys())
             for key in temp_dict_keys:
