@@ -102,15 +102,17 @@ async def _help(message):
     """
 
     bot_author = "Vawqer#6022"
-    help_dialogue = f"Hello! This is Discord bot made by {bot_author}. " +\
-        "This bot will automatically react to any messages with a user's " +\
-        "favorite emoji for those users who opt in. This will only work" +\
-        " in servers where the bot is installed.\n\n" +\
-        "The commands are as follows:\n" +\
-        "'!AutoReact.disable' - removes the emoji preference, disabling the bot for the user\n" +\
-        "'!AutoReact.help' - prints a help message\n" +\
-        r"'!AutoReact.set {emoji}' - set the preferred reaction emoji"+"\n" +\
-        "\nHave a nice day!"
+    help_dialogue = (f"Hello! This is Discord bot made by {bot_author}. "
+        "This bot will automatically react to any messages with a user's "
+        "favorite emoji for those users who opt in. This will only work"
+        " in servers where the bot is installed.\n\n"
+        "The commands are as follows:\n"
+        "'!AutoReact.disable' - removes the emoji preference, disabling the bot"
+        " for the user\n"
+        "'!AutoReact.help' - prints a help message\n"
+        r"'!AutoReact.set {emoji}' - set the preferred reaction emoji"
+        "\n"
+        "\nHave a nice day!")
     await message.author.send(help_dialogue)
 
 
