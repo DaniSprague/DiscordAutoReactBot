@@ -25,9 +25,15 @@ client = discord.Client()
 async def on_message(message):
     """Handles functionality whenever a message visible to AutoReact is seen.
 
-    If the message is a command, then the bot does nothing. Otherwise, it is called to react.
+    If the message is a command in a DM, then the command is appropriately 
+    handled. Otherwise, the bot attempts to react to the message.
 
-    Returns nothing.
+    Args:
+        message: The discord.Message object representing the message triggering
+            the event.
+
+    Returns:
+        None
     """
 
     if message.content[:10] == "!AutoReact" and \
