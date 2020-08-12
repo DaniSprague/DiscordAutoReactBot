@@ -116,10 +116,15 @@ async def _help(message):
 async def _set_pref(message):
     """Sets a user's preference for their reaction emoji.
 
-    Accepts an argument of a Discord message of format "!Autoreact.set {emoji}"
-    Takes the emoji and sets that to be the user's preferred emoji.
+    Takes the emoji within a message and sets that to be the user's preferred 
+    emoji for reactions.
 
-    Returns nothing.
+    Args:
+        message: A discord.Message object with contents of 
+            format "!Autoreact.set {emoji}".
+
+    Returns:
+        None
     """
 
     user_emojis[message.author.id] = message.content[15:16]
