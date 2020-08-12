@@ -90,10 +90,14 @@ async def _disable(message):
 async def _help(message):
     """Provides a help dialogue for the user.
 
-    Accepts the input of a message of format "!AutoReact.help".
-    Prints out a help dialogue.
+    Direct messages a user sending a message requesting help with the help 
+    dialogue for the bot.
 
-    Returns nothing.
+    Args:
+        message: A discord.Message object to reply to.
+
+    Returns:
+        None
     """
 
     bot_author = "Vawqer#6022"
