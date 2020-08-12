@@ -1,5 +1,4 @@
-"""
-File: bot.py
+"""File: bot.py
 Project: AutoReact
 Maintainer: @DaniSprague
 Repository: https://github.com/DaniSprague/DiscordAutoReactBot
@@ -24,13 +23,13 @@ client = discord.Client()
 
 @client.event
 async def on_message(message):
-    """
-    Handles functionality whenever a message visible to AutoReact is seen.
+    """Handles functionality whenever a message visible to AutoReact is seen.
 
     If the message is a command, then the bot does nothing. Otherwise, it is called to react.
 
     Returns nothing.
     """
+
     if message.content[:10] == "!AutoReact" and \
         type(message.channel) == discord.DMChannel:
         if message.content[11:15] == "set ":
@@ -45,11 +44,11 @@ async def on_message(message):
 
 @client.event
 async def on_ready():
-    """
-    Handles the startup once the bot connects to Discord.
+    """Handles the startup once the bot connects to Discord.
 
     Returns nothing.
     """
+
     #Adds a help instruction by the bot's name in the users sidebar
     help_instruction = discord.Game("PM '!AutoReact.help'")
     await client.change_presence(activity=help_instruction)
@@ -60,14 +59,14 @@ async def on_ready():
 
 
 async def _disable(message):
-    """
-    Removes a user's preference for their reactions emoji.
+    """Removes a user's preference for their reactions emoji.
 
     Accepts an argument of a Discord message of format "!AutoReact.disable".
     Reads who the user is and removes their entry from the preferences.
 
     Returns nothing.
     """
+
     try:
         del user_emojis[message.author.id]
         await _save_emojis()
@@ -76,14 +75,14 @@ async def _disable(message):
 
 
 async def _help(message):
-    """
-    Provides a help dialogue for the user.
+    """Provides a help dialogue for the user.
 
     Accepts the input of a message of format "!AutoReact.help".
     Prints out a help dialogue.
 
     Returns nothing.
     """
+
     bot_author = "Vawqer#6022"
     help_dialogue = f"Hello! This is Discord bot made by {bot_author}. " +\
         "This bot will automatically react to any messages with a user's " +\
@@ -98,14 +97,14 @@ async def _help(message):
 
 
 async def _set_pref(message):
-    """
-    Sets a user's preference for their reaction emoji.
+    """Sets a user's preference for their reaction emoji.
 
     Accepts an argument of a Discord message of format "!Autoreact.set {emoji}"
     Takes the emoji and sets that to be the user's preferred emoji.
 
     Returns nothing.
     """
+
     user_emojis[message.author.id] = message.content[15:16]
     await _save_emojis()
 
@@ -114,14 +113,14 @@ async def _set_pref(message):
 
 
 async def _react(message):
-    """
-    Reacts to the given message with the user's preferred emoji.
+    """Reacts to the given message with the user's preferred emoji.
 
     Accepts an argument of a Discord message to be reacted to.
     Checks the author's preference of emoji and reacts.
 
     Returns nothing.
     """
+
     try:
         emoji = user_emojis.get(message.author.id, None)
         if emoji is not None:
@@ -138,11 +137,11 @@ async def _react(message):
 
 
 def _load_emojis():
-    """
-    Loads the emoji preferences into a dictionary format from the database.
+    """Loads the emoji preferences into a dictionary format from the database.
 
     Returns the dictionary containing all the emoji preferences.
     """
+
     try:
         with open('user_emojis.json', 'r') as f:
             temp_dict = json.load(f)
@@ -162,11 +161,11 @@ def _load_emojis():
 
 
 async def _save_emojis():
-    """
-    Saves the emoji preferences from a dictionary format into the database.
+    """Saves the emoji preferences from a dictionary format into the database.
 
     Returns nothing.
     """
+
     with open('user_emojis.json', 'w') as f:
         json.dump(user_emojis, f)
 
