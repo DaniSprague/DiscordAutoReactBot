@@ -184,7 +184,8 @@ def _load_emojis():
         with open('user_emojis.json', 'r') as f:
             temp_dict = json.load(f)
             # Changes the loaded string keys to integers.
-            # Note that json.load does have a parse_int parameter, but I failed to get it working
+            # Note that json.load does have a parse_int parameter, however it 
+            # did not appear to be working for this.
             temp_dict_keys = list(temp_dict.keys())
             for key in temp_dict_keys:
                 temp_dict[int(key)] = temp_dict[key]
