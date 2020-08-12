@@ -21,6 +21,7 @@ client = discord.Client()
 
 # Discord calls
 
+
 @client.event
 async def on_message(message):
     """
@@ -41,6 +42,7 @@ async def on_message(message):
     else:
         await _react(message)
 
+
 @client.event
 async def on_ready():
     """
@@ -50,10 +52,12 @@ async def on_ready():
     """
     #Adds a help instruction by the bot's name in the users sidebar
     help_instruction = discord.Game("PM '!AutoReact.help'")
-    await client.change_presence(activity = help_instruction)
+    await client.change_presence(activity=help_instruction)
     print(f'{client.user} has connected to Discord!\n')
 
+
 # Commands
+
 
 async def _disable(message):
     """
@@ -69,6 +73,7 @@ async def _disable(message):
         await _save_emojis()
     except KeyError:
         ""
+
 
 async def _help(message):
     """
@@ -91,6 +96,7 @@ async def _help(message):
         "\nHave a nice day!"
     await message.author.send(help_dialogue)
 
+
 async def _set_pref(message):
     """
     Sets a user's preference for their reaction emoji.
@@ -103,7 +109,9 @@ async def _set_pref(message):
     user_emojis[message.author.id] = message.content[15:16]
     await _save_emojis()
 
+
 # Core functions
+
 
 async def _react(message):
     """
@@ -125,7 +133,9 @@ async def _react(message):
         print(f"{datetime.datetime.now()}: error reacting")
         raise
 
+
 # Database functions
+
 
 def _load_emojis():
     """
@@ -149,6 +159,7 @@ def _load_emojis():
         with open('user_emojis.json', 'w') as f:
             json.dump(user_emojis, f)
         return _load_emojis()
+
 
 async def _save_emojis():
     """

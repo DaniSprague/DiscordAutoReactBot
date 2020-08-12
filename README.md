@@ -47,6 +47,10 @@ This project is still quite lacking. One goal is to get the Wiki up and running 
 
 Currently, the project is considered to be in v0.1.
 
+## Code Styling
+
+This project uses [YAPF](https://github.com/google/yapf) to format the code, using the config in the included `.style.yapf` file. For comments and docstrings, the [Google Python Style Guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md#s3.8-comments-and-docstrings) is followed.
+
 ## Why?
 
 This project sprung out of the COVID-19 pandemic when @DaniSprague desired something to work on. Checking their list of ideas, they saw an auto-reacting Discord bot listed. They thought it would be a most excellent idea as it would improve their Python skills and help them learn how to work with APIs (even if it was entirely wrapped in a Python package).
