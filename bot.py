@@ -154,9 +154,14 @@ async def _react(message):
 
 
 def _load_emojis():
-    """Loads the emoji preferences into a dictionary format from the database.
+    """Loads the emoji preferences from the database.
 
-    Returns the dictionary containing all the emoji preferences.
+    Args:
+        None
+
+    Returns:
+        A dictionary with keys being (integer) uuid's of Discord users and 
+        values being the (string) emoji preference of the user.
     """
 
     try:
