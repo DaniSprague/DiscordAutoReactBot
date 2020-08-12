@@ -71,12 +71,13 @@ async def on_ready():
 
 
 async def _disable(message):
-    """Removes a user's preference for their reactions emoji.
+    """Disables the bot for a user by removing their emoji preference.
 
-    Accepts an argument of a Discord message of format "!AutoReact.disable".
-    Reads who the user is and removes their entry from the preferences.
+    Args:
+        message: A Discord.message object with contents "!AutoReact.disable"
 
-    Returns nothing.
+    Returns:
+        None
     """
 
     try:
