@@ -2,7 +2,7 @@
 
 This bot automatically reacts to user's messages with their favorite emoji on Discord.
 
-__WARNING:__ AutoReact is in early development, and is only updated when @DaniSprague has time. A lot of functionality is still missing, although AutoReact is now considered to be at v0.1. Use this at your own risk!
+__WARNING:__ AutoReact is in early development, and is only updated when @DaniSprague has time. A lot of functionality is still missing, although AutoReact is now considered to be at v0.2. Use this at your own risk!
 
 ## Usage
 
@@ -45,7 +45,7 @@ There are plans to provide both a Docker Image and the ability to load the bot o
 
 This project is still quite lacking. One goal is to get the Wiki up and running for a more formal roadmap. Until then, [the Milestones portion of the Issues tab](https://github.com/DaniSprague/DiscordAutoReactBot/milestones) should give a good idea of what is needed for each version.
 
-Currently, the project is considered to be in v0.1.
+Currently, the project is considered to be in v0.2.
 
 ## Code Styling
 
