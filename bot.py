@@ -222,12 +222,14 @@ async def _react(message):
             await message.add_reaction(emoji)
             bot_logger.info((f"Reacted to {message.author}'s message "
                              f'with {emoji}.'))
+    # Exception reached if invalid emoji is used
     except Exception as e:
         bot_logger.warning('Error adding reaction to message')
         bot_logger.debug(
             (f'Error "{repr(e)}" reached in attempting to react to '
              f"{message.author}'s ({message.author.id}) message in "
-             f'{message.channel}.'))
+             f'{message.channel} with emoji '
+             f'"{user_emojis.get(message.author.id, None)}".'))
 
 
 # Database functions
