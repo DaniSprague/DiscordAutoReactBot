@@ -137,10 +137,20 @@ async def _set_pref(message):
 async def _react(message):
     """Reacts to the given message with the user's preferred emoji.
 
-    Accepts an argument of a Discord message to be reacted to.
-    Checks the author's preference of emoji and reacts.
+    The message's author's preference of emoji is checked. If a preference has
+    been set, then the message is reacted to with the preferred emoji. 
+    Otherwise, no reaction is used.
 
-    Returns nothing.
+    Args:
+        message: A discord.Message object representing the message that will
+            recieve a reaction.
+
+    Returns:
+        None
+
+    Raises:
+        Exception: An error occured in reacting (possibly from an invalid 
+            emoji in use).
     """
 
     try:
