@@ -1,12 +1,12 @@
-"""File: bot.py
-Project: AutoReact
-Maintainer: @DaniSprague
-Repository: https://github.com/DaniSprague/DiscordAutoReactBot
+"""Discord AutoReact Bot
 
-The main file for a bot to auto-react to user's messages on Discord.
+Reacts to users' messages with their favorite emoji.
 
-While AutoReact is running, users may set their emoji, which will cause the bot to react to all their messages.
-More information about the project is available on the repository.
+Activates and connects to Discord. Allows users to set their favorite emoji,
+after which the bot will react to the user's messages with their favorite emoji
+for every channel in which the bot and the user are both members.
+
+This script depends on the discord and dotenv modules. See README.md for more.
 """
 
 import datetime

@@ -1,4 +1,4 @@
-# DiscordAutoReactBot
+# [DiscordAutoReactBot](https://github.com/DaniSprague/DiscordAutoReactBot)
 
 This bot automatically reacts to user's messages with their favorite emoji on Discord.
 
