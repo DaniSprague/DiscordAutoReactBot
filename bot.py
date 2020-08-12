@@ -183,9 +183,13 @@ def _load_emojis():
 
 
 async def _save_emojis():
-    """Saves the emoji preferences from a dictionary format into the database.
+    """Saves the emoji preferences from memory into the database.
 
-    Returns nothing.
+    Args:
+        None
+
+    Returns:
+        None
     """
 
     with open('user_emojis.json', 'w') as f:
