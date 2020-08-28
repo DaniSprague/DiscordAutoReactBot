@@ -16,7 +16,7 @@ AutoReact supports several commands. To use any of these commands, users should 
 
 ## Functionality
 
-Once the user sets their preferred emoji using `!AutoReact set`, then AutoReact will react to that user's messages with the set emoji in servers where AutoReact is enabled. 
+Once the user sets their preferred emoji using `!AutoReact set`, then AutoReact will react to that user's messages with the set emoji in servers where AutoReact is enabled.
 
 ### Cooldowns
 
