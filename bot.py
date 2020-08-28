@@ -9,6 +9,7 @@ for every channel in which the bot and the user are both members.
 This script depends on the discord and dotenv modules. See README.md for more.
 """
 
+import datetime as dt
 import os
 import json
 import logging
@@ -171,9 +172,11 @@ async def _help(message):
         r"'!AutoReact.set {emoji}' - set the preferred reaction emoji"
         "\n"
         "\nHave a nice day!")
-    await message.author.send(help_dialogue)
-    bot_logger.debug((f'Sent help dialogue to {message.author} in '
-                      f'{message.channel}.'))
+    if not (await _needs_cooldown(message.author.id, 120)):
+        await message.author.send(help_dialogue)
+        last_message[message.author.id] = dt.datetime.now()
+        bot_logger.debug((f'Sent help dialogue to {message.author} in '
+                          f'{message.channel}.'))
 
 
 async def _set_pref(message):
@@ -196,8 +199,9 @@ async def _set_pref(message):
         await _save_emojis()
         bot_logger.debug((f"Set {message.author}'s ({message.author.id}) emoji "
                           f'preference as {emoji}.'))
-    else:
+    elif not (await _needs_cooldown(message.author.id, 30)):
         await message.author.send(f'"{emoji}" is not an emoji!')
+        last_message[message.author.id] = dt.datetime.now()
         bot_logger.debug((f"{message.author} sent invalid emoji '{emoji}' "
                           "in attempting to set their emoji. No emoji set."))
 
@@ -225,12 +229,14 @@ async def _react(message):
     """
 
     try:
-        emoji = user_emojis.get(message.author.id, None)
-        if emoji is not None:
-            await message.add_reaction(emoji)
-            bot_logger.info((f"Reacted to {message.author}'s message "
-                             f'with {emoji}.'))
-    # Exception reached if invalid emoji is used
+        if not (await _needs_cooldown(message.author.id, 300)):
+            emoji = user_emojis.get(message.author.id, None)
+            if emoji is not None:
+                await message.add_reaction(emoji)
+                last_message[message.author.id] = dt.datetime.now()
+                bot_logger.info((f"Reacted to {message.author}'s message "
+                                 f'with {emoji}.'))
+    # Exception reached if invalid emoji is used (should not happen anymore)
     except Exception as e:
         bot_logger.warning('Error adding reaction to message')
         bot_logger.debug(
@@ -292,11 +298,32 @@ async def _save_emojis():
     bot_logger.debug('Emoji preferences saved to database.')
 
 
+# Helper functions
+
+
+async def _needs_cooldown(user, cooldown):
+    """Checks if a user needs a cooldown
+
+    Args:
+        user: The UUID of the user to check.
+        cooldown: An integer representing time in seconds of the cooldown.
+
+    Returns:
+        A boolean of value True if the user needs a cooldown. False otherwise.
+    """
+
+    return (dt.datetime.now() - last_message[user]).total_seconds() < cooldown \
+        if user in last_message else False
+
+
 # Start-up functionality
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 user_emojis = _load_emojis()
+
+# Used for cooldown
+last_message = dict()
 
 client.run(TOKEN)
