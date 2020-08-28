@@ -2,7 +2,7 @@
 
 This bot automatically reacts to user's messages with their favorite emoji on Discord.
 
-__WARNING:__ AutoReact is in early development, and is only updated when @DaniSprague has time. A lot of functionality is still missing, although AutoReact is now considered to be at v0.2. Use this at your own risk!
+__WARNING:__ AutoReact is in early development, and is only updated when @DaniSprague has time. A lot of functionality is still missing, although AutoReact is now considered to be at v0.3. Use this at your own risk!
 
 ## Usage
 
@@ -34,7 +34,7 @@ In order to get AutoReact running on your local machine, the following steps sho
 
     * The private token can be found on the Discord Developer Portal
 
-3. Install [`discord.py`](https://discordpy.readthedocs.io/en/latest/index.html) and [`python-dotenv`](https://saurabh-kumar.com/python-dotenv/) using a Python package manager.
+3. Install [`discord.py`](https://discordpy.readthedocs.io/en/latest/index.html), [`emoji`](https://github.com/carpedm20/emoji/), and [`python-dotenv`](https://saurabh-kumar.com/python-dotenv/) using a Python package manager.
 4. Run `bot.py` from a command line.
 
 [This article](https://realpython.com/how-to-make-a-discord-bot-python/) provides additional details on handling the Discord Developer Portal to get the bot running on a local installation. It also covers how to add the bot to a Discord server.

@@ -15,6 +15,7 @@ import logging
 
 import discord
 from dotenv import load_dotenv
+import emoji as em
 
 # Discord logging set-up (basic logging code from the discord.py documentation)
 logger = logging.getLogger('discord')
@@ -83,6 +84,8 @@ async def on_message(message):
             await _help(message)
         elif message.content[11:19] == "disable":
             await _disable(message)
+        else:
+            bot_logger.debug(f"{message.author} sent an invalid command.")
     else:
         await _react(message)
 
@@ -188,10 +191,15 @@ async def _set_pref(message):
     """
 
     emoji = message.content[15:16]
-    user_emojis[message.author.id] = emoji
-    await _save_emojis()
-    bot_logger.debug((f"Set {message.author}'s ({message.author.id}) emoji "
-                      f'preference as {emoji}.'))
+    if em.emoji_count(emoji) == 1:
+        user_emojis[message.author.id] = emoji
+        await _save_emojis()
+        bot_logger.debug((f"Set {message.author}'s ({message.author.id}) emoji "
+                          f'preference as {emoji}.'))
+    else:
+        await message.author.send(f'"{emoji}" is not an emoji!')
+        bot_logger.debug((f"{message.author} sent invalid emoji '{emoji}' "
+                          "in attempting to set their emoji. No emoji set."))
 
 
 # Core functions
