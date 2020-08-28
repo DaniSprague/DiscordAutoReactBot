@@ -16,7 +16,17 @@ AutoReact supports several commands. To use any of these commands, users should 
 
 ## Functionality
 
-Once the user sets their preferred emoji using `!AutoReact set`, then AutoReact will react to that user's messages with the set emoji in servers where AutoReact is enabled. Currently, there is no cooldown on reactions, so this has the chance to appear as spam if the user sends a lot of messages.
+Once the user sets their preferred emoji using `!AutoReact set`, then AutoReact will react to that user's messages with the set emoji in servers where AutoReact is enabled.
+
+### Cooldowns
+
+Anytime a message to a user is sent or a reaction is made, the cooldown timer is reset. The following table shows the cooldown times:
+
+| Action | Cooldown (seconds) |
+| --- | --- |
+| Reaction to emoji | 300 |
+| Help message sent | 120 |
+| Error setting reaction emoji | 30 |
 
 ## Installation
 
