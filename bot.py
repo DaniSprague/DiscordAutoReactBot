@@ -11,8 +11,8 @@ This script depends on the discord and dotenv modules. See README.md for more.
 
 import datetime as dt
 import os
-import json
 import logging
+import sqlite3
 
 import discord
 from dotenv import load_dotenv
@@ -137,13 +137,9 @@ async def _disable(message):
         None
     """
 
-    try:
-        del user_emojis[message.author.id]
-        bot_logger.debug((f"{message.author}'s ({message.author.id}) emoji "
-                          "deleted from dictionary."))
-        await _save_emojis()
-    except KeyError:
-        ""
+    await _delete_user(message.author)
+    bot_logger.debug((f"{message.author}'s ({message.author.id}) emoji "
+                        "deleted."))
 
 
 async def _help(message):
@@ -195,8 +191,7 @@ async def _set_pref(message):
 
     emoji = message.content[15:16]
     if em.emoji_count(emoji) == 1:
-        user_emojis[message.author.id] = emoji
-        await _save_emojis()
+        await _set_emoji(message.author, emoji)
         bot_logger.debug((f"Set {message.author}'s ({message.author.id}) emoji "
                           f'preference as {emoji}.'))
     elif not (await _needs_cooldown(message.author.id, 30)):
@@ -230,7 +225,7 @@ async def _react(message):
 
     try:
         if not (await _needs_cooldown(message.author.id, 300)):
-            emoji = user_emojis.get(message.author.id, None)
+            emoji = await _get_emoji(message.author)
             if emoji is not None:
                 await message.add_reaction(emoji)
                 last_message[message.author.id] = dt.datetime.now()
@@ -243,59 +238,96 @@ async def _react(message):
             (f'Error "{repr(e)}" reached in attempting to react to '
              f"{message.author}'s ({message.author.id}) message in "
              f'{message.channel} with emoji '
-             f'"{user_emojis.get(message.author.id, None)}".'))
+             f'"{await _get_emoji(message.author)}".'))
 
 
 # Database functions
 
 
-def _load_emojis():
-    """Loads the emoji preferences from the database.
+async def _delete_user(user):
+    """Deletes a user from the database.
 
     Args:
-        None
+        user: A discord User object representing whose data will be deleted.
 
     Returns:
-        A dictionary with keys being (integer) uuid's of Discord users and 
-        values being the (string) emoji preference of the user.
+        None
     """
 
+    c = conn.cursor()
+    uuid = user.id
+    c.execute("DELETE FROM emojis WHERE user=?", (uuid,))
+    conn.commit()
+
+
+async def _get_emoji(user):
+    """Returns an emoji preference for a given user.
+
+    Args:
+        user: A discord User object representing whose emoji will be retrieved.
+
+    Returns:
+        A string representing an emoji the user has in the database. If the user
+        has no preference set, this returns None.
+    """
+
+    c = conn.cursor()
+    uuid = user.id
+    query = 'SELECT emoji FROM emojis WHERE user = ?'
+    emoji = None
     try:
-        with open('user_emojis.json', 'r') as f:
-            temp_dict = json.load(f)
-            # Changes the loaded string keys to integers.
-            # Note that json.load does have a parse_int parameter, however it
-            # did not appear to be working for this.
-            temp_dict_keys = list(temp_dict.keys())
-            for key in temp_dict_keys:
-                temp_dict[int(key)] = temp_dict[key]
-                del temp_dict[key]
-                bot_logger.debug((f"Loaded {key}'s preferences into memory."))
-            bot_logger.info('Loaded preferences into memory from database.')
-            return temp_dict
-    # Handles case where database has not been created yet
-    except FileNotFoundError:
-        bot_logger.debug('Database not found.')
-        user_emojis = dict()
-        with open('user_emojis.json', 'w') as f:
-            json.dump(user_emojis, f)
-        bot_logger.debug('Database created.')
-        return _load_emojis()
+        emoji = c.execute(query, (uuid,)).fetchone()[0]
+    except (IndexError, TypeError):
+        emoji = None
+    return emoji
 
 
-async def _save_emojis():
-    """Saves the emoji preferences from memory into the database.
+def _open_db():
+    """Opens the database and ensures any tables needed are present.
 
     Args:
         None
 
     Returns:
-        None
+        A sqlite3 Connection object with the connection to the database.
     """
 
-    with open('user_emojis.json', 'w') as f:
-        json.dump(user_emojis, f)
-    bot_logger.debug('Emoji preferences saved to database.')
+    conn = sqlite3.connect('AutoReact_dev.db')
+
+    #Ensure needed tables are present
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS emojis 
+                 (user INTEGER PRIMARY KEY, emoji TEXT)''')
+    conn.commit()
+
+    bot_logger.info('SQLite3 database opened.')
+
+    return conn
+
+
+async def _set_emoji(user, emoji):
+    """Sets the emoji for a user in the database.
+
+    Args:
+        user: A discord User object for whose emoji to set.
+        emoji: A single character string representing the emoji to set.
+
+    Returns:
+        None
+    """
+    
+    c = conn.cursor()
+    uuid = user.id
+    
+    # Update the DB if the user is in there already, else insert a row
+    check = "SELECT count(user) FROM emojis WHERE user=?"
+    if c.execute(check, (uuid,)).fetchone()[0] > 0:
+        update = "UPDATE emojis SET emoji=? WHERE user=?"
+        c.execute(update, (emoji, user))
+    else:
+        insert = "INSERT INTO emojis VALUES (?, ?)"
+        c.execute(insert, (uuid, emoji))
+    conn.commit()
 
 
 # Helper functions
@@ -321,7 +353,7 @@ async def _needs_cooldown(user, cooldown):
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-user_emojis = _load_emojis()
+conn = _open_db()
 
 # Used for cooldown
 last_message = dict()
