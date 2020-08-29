@@ -45,7 +45,8 @@ In order to get AutoReact running on a local machine, the following steps should
     * The private token can be found on the Discord Developer Portal
 
 3. Install [`discord.py`](https://discordpy.readthedocs.io/en/latest/index.html), [`emoji`](https://github.com/carpedm20/emoji/), and [`python-dotenv`](https://saurabh-kumar.com/python-dotenv/) using a Python package manager.
-4. Run `bot.py` from a command line.
+4. Change the save location of the database within _open_db() to 'AutoReact_prod.db'.
+5. Run `bot.py` from a command line.
 
 [This article](https://realpython.com/how-to-make-a-discord-bot-python/) provides additional details on handling the Discord Developer Portal to get the bot running on a local installation. It also covers how to add the bot to a Discord server.
 
