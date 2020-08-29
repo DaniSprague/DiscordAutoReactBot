@@ -167,6 +167,9 @@ async def _help(message):
         "'!AutoReact.help' - prints a help message\n"
         r"'!AutoReact.set {emoji}' - set the preferred reaction emoji"
         "\n"
+        "\n"
+        r"See https://github.com/DaniSprague/DiscordAutoReactBot for more."
+        "\n"
         "\nHave a nice day!")
     if not (await _needs_cooldown(message.author.id, 120)):
         await message.author.send(help_dialogue)
