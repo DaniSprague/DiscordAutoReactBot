@@ -2,7 +2,7 @@
 
 This bot automatically reacts to user's messages with their favorite emoji on Discord.
 
-__WARNING:__ AutoReact is in early development, and is only updated when @DaniSprague has time. A lot of functionality is still missing, although AutoReact is now considered to be at v0.3. Use this at your own risk!
+__WARNING:__ AutoReact is in early development, and is only updated when @DaniSprague has time. Some functionality is still missing, although AutoReact is now considered to be at v0.3. Use this at your own risk!
 
 ## Usage
 
@@ -10,7 +10,7 @@ AutoReact supports several commands. To use any of these commands, users should 
 
 | __Prefix__ | __Command__ | __Arguments__ | __Functionality__ | __Example__ |
 | --- | --- | --- | --- | --- |
-| !AutoReact | .disable | *none* | Removes the user's reaction emoji | `!AutoReact.disable` |
+| !AutoReact | .disable | *none* | Removes the user's settings | `!AutoReact.disable` |
 | !AutoReact | .help | *none* | Messages the user with help info | `!AutoReact.help` |
 | !AutoReact | .set | emoji | Sets the user's reaction emoji | `!AutoReact.set 🤔` |
 
@@ -20,7 +20,7 @@ Once the user sets their preferred emoji using `!AutoReact set`, then AutoReact 
 
 ### Cooldowns
 
-Anytime a message to a user is sent or a reaction is made, the cooldown timer is reset. The following table shows the cooldown times:
+Anytime a message to a user is sent or a reaction is made, the cooldown timer is reset. While a cooldown is active, reactions and messages will not be sent to the user. The following table shows the cooldown times:
 
 | Action | Cooldown (seconds) |
 | --- | --- |
@@ -30,7 +30,7 @@ Anytime a message to a user is sent or a reaction is made, the cooldown timer is
 
 ## Installation
 
-In order to get AutoReact running on your local machine, the following steps should work:
+In order to get AutoReact running on a local machine, the following steps should work:
 
 1. Pull this repository onto a local machine.
 2. Create the `.env` file with the private key info.
@@ -55,7 +55,7 @@ There are plans to provide both a Docker Image and the ability to load the bot o
 
 This project is still quite lacking. One goal is to get the Wiki up and running for a more formal roadmap. Until then, [the Milestones portion of the Issues tab](https://github.com/DaniSprague/DiscordAutoReactBot/milestones) should give a good idea of what is needed for each version.
 
-Currently, the project is considered to be in v0.2.
+Currently, the project is considered to be in v0.3.
 
 ## Code Styling
 
