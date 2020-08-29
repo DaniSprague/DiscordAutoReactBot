@@ -2,7 +2,7 @@
 
 This bot automatically reacts to user's messages with their favorite emoji on Discord.
 
-__WARNING:__ AutoReact is in early development, and is only updated when @DaniSprague has time. A lot of functionality is still missing, although AutoReact is now considered to be at v0.2. Use this at your own risk!
+__WARNING:__ AutoReact is in early development, and is only updated when @DaniSprague has time. Some functionality is still missing, although AutoReact is now considered to be at v0.3. Use this at your own risk!
 
 ## Usage
 
@@ -10,17 +10,27 @@ AutoReact supports several commands. To use any of these commands, users should 
 
 | __Prefix__ | __Command__ | __Arguments__ | __Functionality__ | __Example__ |
 | --- | --- | --- | --- | --- |
-| !AutoReact | .disable | *none* | Removes the user's reaction emoji | `!AutoReact.disable` |
+| !AutoReact | .disable | *none* | Removes the user's settings | `!AutoReact.disable` |
 | !AutoReact | .help | *none* | Messages the user with help info | `!AutoReact.help` |
 | !AutoReact | .set | emoji | Sets the user's reaction emoji | `!AutoReact.set 🤔` |
 
 ## Functionality
 
-Once the user sets their preferred emoji using `!AutoReact set`, then AutoReact will react to that user's messages with the set emoji in servers where AutoReact is enabled. Currently, there is no cooldown on reactions, so this has the chance to appear as spam if the user sends a lot of messages.
+Once the user sets their preferred emoji using `!AutoReact set`, then AutoReact will react to that user's messages with the set emoji in servers where AutoReact is enabled.
+
+### Cooldowns
+
+Anytime a message to a user is sent or a reaction is made, the cooldown timer is reset. While a cooldown is active, reactions and messages will not be sent to the user. The following table shows the cooldown times:
+
+| Action | Cooldown (seconds) |
+| --- | --- |
+| Reaction to emoji | 300 |
+| Help message sent | 120 |
+| Error setting reaction emoji | 30 |
 
 ## Installation
 
-In order to get AutoReact running on your local machine, the following steps should work:
+In order to get AutoReact running on a local machine, the following steps should work:
 
 1. Pull this repository onto a local machine.
 2. Create the `.env` file with the private key info.
@@ -34,8 +44,9 @@ In order to get AutoReact running on your local machine, the following steps sho
 
     * The private token can be found on the Discord Developer Portal
 
-3. Install [`discord.py`](https://discordpy.readthedocs.io/en/latest/index.html) and [`python-dotenv`](https://saurabh-kumar.com/python-dotenv/) using a Python package manager.
-4. Run `bot.py` from a command line.
+3. Install [`discord.py`](https://discordpy.readthedocs.io/en/latest/index.html), [`emoji`](https://github.com/carpedm20/emoji/), and [`python-dotenv`](https://saurabh-kumar.com/python-dotenv/) using a Python package manager.
+4. Change the save location of the database within _open_db() to 'AutoReact_prod.db'.
+5. Run `bot.py` from a command line.
 
 [This article](https://realpython.com/how-to-make-a-discord-bot-python/) provides additional details on handling the Discord Developer Portal to get the bot running on a local installation. It also covers how to add the bot to a Discord server.
 
@@ -45,7 +56,7 @@ There are plans to provide both a Docker Image and the ability to load the bot o
 
 This project is still quite lacking. One goal is to get the Wiki up and running for a more formal roadmap. Until then, [the Milestones portion of the Issues tab](https://github.com/DaniSprague/DiscordAutoReactBot/milestones) should give a good idea of what is needed for each version.
 
-Currently, the project is considered to be in v0.2.
+Currently, the project is considered to be in v0.3.
 
 ## Code Styling
 
