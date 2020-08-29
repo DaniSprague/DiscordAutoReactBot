@@ -139,7 +139,7 @@ async def _disable(message):
 
     await _delete_user(message.author)
     bot_logger.debug((f"{message.author}'s ({message.author.id}) emoji "
-                        "deleted."))
+                      "deleted."))
 
 
 async def _help(message):
@@ -256,7 +256,7 @@ async def _delete_user(user):
 
     c = conn.cursor()
     uuid = user.id
-    c.execute("DELETE FROM emojis WHERE user=?", (uuid,))
+    c.execute("DELETE FROM emojis WHERE user=?", (uuid, ))
     conn.commit()
 
 
@@ -276,7 +276,7 @@ async def _get_emoji(user):
     query = 'SELECT emoji FROM emojis WHERE user = ?'
     emoji = None
     try:
-        emoji = c.execute(query, (uuid,)).fetchone()[0]
+        emoji = c.execute(query, (uuid, )).fetchone()[0]
     except (IndexError, TypeError):
         emoji = None
     return emoji
@@ -315,13 +315,13 @@ async def _set_emoji(user, emoji):
     Returns:
         None
     """
-    
+
     c = conn.cursor()
     uuid = user.id
-    
+
     # Update the DB if the user is in there already, else insert a row
     check = "SELECT count(user) FROM emojis WHERE user=?"
-    if c.execute(check, (uuid,)).fetchone()[0] > 0:
+    if c.execute(check, (uuid, )).fetchone()[0] > 0:
         update = "UPDATE emojis SET emoji=? WHERE user=?"
         c.execute(update, (emoji, user))
     else:
