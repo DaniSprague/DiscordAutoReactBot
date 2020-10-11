@@ -30,29 +30,9 @@ Anytime a message to a user is sent or a reaction is made, the cooldown timer is
 
 ## Installation
 
-In order to get AutoReact running on a local machine, the following steps should work:
+[Click here](https://discord.com/oauth2/authorize?client_id=701967721960570912&permissions=68672&scope=bot) to invite the bot (AutoReact#6384) to your server! You must have "Manage Server" permissions to do so.
 
-1. Pull this repository onto a local machine.
-2. Create the `.env` file with the private key info.
-    * The `.env` file should be in the same directory as `bot.py`.
-    * The format of `.env` should be two lines as follows:
-
-    ```none
-    DISCORD_TOKEN=[PRIVATE_TOKEN]
-
-    ```
-
-    * The private token can be found on the Discord Developer Portal
-
-3. Install [`discord.py`](https://discordpy.readthedocs.io/en/latest/index.html), [`emoji`](https://github.com/carpedm20/emoji/), and [`python-dotenv`](https://saurabh-kumar.com/python-dotenv/) using a Python package manager.
-4. Change the save location of the database within _open_db() to 'AutoReact_prod.db'.
-5. Run `bot.py` from a command line.
-
-[This article](https://realpython.com/how-to-make-a-discord-bot-python/) provides additional details on handling the Discord Developer Portal to get the bot running on a local installation. It also covers how to add the bot to a Discord server.
-
-The wiki covers [how to create and run the docker file](https://github.com/DaniSprague/DiscordAutoReactBot/wiki/Installation).
-
-There are plans to provide the ability to load the bot on one's own server from a hosted installation, but that are not yet ready.
+The wiki covers [how to create and run the docker file or manually run the bot](https://github.com/DaniSprague/DiscordAutoReactBot/wiki/Installation).
 
 ## Code Styling
 

@@ -6,7 +6,7 @@ Activates and connects to Discord. Allows users to set their favorite emoji,
 after which the bot will react to the user's messages with their favorite emoji
 for every channel in which the bot and the user are both members.
 
-This script depends on the discord and dotenv modules. See README.md for more.
+This depends on the discord, dotenv, and emoji modules. See README.md for more.
 """
 
 import datetime as dt
