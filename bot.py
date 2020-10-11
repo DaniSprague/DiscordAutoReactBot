@@ -6,7 +6,7 @@ Activates and connects to Discord. Allows users to set their favorite emoji,
 after which the bot will react to the user's messages with their favorite emoji
 for every channel in which the bot and the user are both members.
 
-This script depends on the discord and dotenv modules. See README.md for more.
+This depends on the discord, dotenv, and emoji modules. See README.md for more.
 """
 
 import datetime as dt
@@ -21,7 +21,7 @@ import emoji as em
 # Discord logging set-up (basic logging code from the discord.py documentation)
 logger = logging.getLogger('discord')
 logger.setLevel(logging.INFO)
-handler = logging.FileHandler(filename='discord.log',
+handler = logging.FileHandler(filename='bind/discord.log',
                               encoding='utf-8',
                               mode='a')
 handler.setFormatter(
@@ -167,6 +167,9 @@ async def _help(message):
         "'!AutoReact.help' - prints a help message\n"
         r"'!AutoReact.set {emoji}' - set the preferred reaction emoji"
         "\n"
+        "\n"
+        r"See https://github.com/DaniSprague/DiscordAutoReactBot for more."
+        "\n"
         "\nHave a nice day!")
     if not (await _needs_cooldown(message.author.id, 120)):
         await message.author.send(help_dialogue)
@@ -292,7 +295,7 @@ def _open_db():
         A sqlite3 Connection object with the connection to the database.
     """
 
-    conn = sqlite3.connect('AutoReact_dev.db')
+    conn = sqlite3.connect('bind/AutoReact.db')
 
     #Ensure needed tables are present
     c = conn.cursor()
@@ -350,7 +353,7 @@ async def _needs_cooldown(user, cooldown):
 
 # Start-up functionality
 
-load_dotenv()
+load_dotenv("bind/.env")
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 conn = _open_db()
