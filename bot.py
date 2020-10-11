@@ -21,7 +21,7 @@ import emoji as em
 # Discord logging set-up (basic logging code from the discord.py documentation)
 logger = logging.getLogger('discord')
 logger.setLevel(logging.INFO)
-handler = logging.FileHandler(filename='discord.log',
+handler = logging.FileHandler(filename='bind/discord.log',
                               encoding='utf-8',
                               mode='a')
 handler.setFormatter(
@@ -295,7 +295,7 @@ def _open_db():
         A sqlite3 Connection object with the connection to the database.
     """
 
-    conn = sqlite3.connect('AutoReact_dev.db')
+    conn = sqlite3.connect('bind/AutoReact_dev.db')
 
     #Ensure needed tables are present
     c = conn.cursor()
@@ -353,8 +353,12 @@ async def _needs_cooldown(user, cooldown):
 
 # Start-up functionality
 
-load_dotenv()
+load_dotenv("bind/.env")
 TOKEN = os.getenv('DISCORD_TOKEN')
+print(TOKEN)
+with open("bind/.env") as f:
+    for line in f:
+        print(line)
 
 conn = _open_db()
 

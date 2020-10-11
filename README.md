@@ -50,7 +50,9 @@ In order to get AutoReact running on a local machine, the following steps should
 
 [This article](https://realpython.com/how-to-make-a-discord-bot-python/) provides additional details on handling the Discord Developer Portal to get the bot running on a local installation. It also covers how to add the bot to a Discord server.
 
-There are plans to provide both a Docker Image and the ability to load the bot on one's own server from a hosted installation, but those are not yet ready.
+The wiki covers [how to create and run the docker file](https://github.com/DaniSprague/DiscordAutoReactBot/wiki/Installation).
+
+There are plans to provide the ability to load the bot on one's own server from a hosted installation, but that are not yet ready.
 
 ## Code Styling
 
