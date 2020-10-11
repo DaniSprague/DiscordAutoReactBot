@@ -295,7 +295,7 @@ def _open_db():
         A sqlite3 Connection object with the connection to the database.
     """
 
-    conn = sqlite3.connect('bind/AutoReact_dev.db')
+    conn = sqlite3.connect('bind/AutoReact.db')
 
     #Ensure needed tables are present
     c = conn.cursor()
@@ -355,10 +355,6 @@ async def _needs_cooldown(user, cooldown):
 
 load_dotenv("bind/.env")
 TOKEN = os.getenv('DISCORD_TOKEN')
-print(TOKEN)
-with open("bind/.env") as f:
-    for line in f:
-        print(line)
 
 conn = _open_db()
 
